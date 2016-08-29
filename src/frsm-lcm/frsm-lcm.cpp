@@ -273,8 +273,9 @@ int main(int argc, char *argv[])
   ConciseArgs opt(argc, argv);
   opt.add(app->lidar_chan, "l", "lidar_chan", "Input lidar lcm channel");
   opt.add(app->odom_chan, "o", "odom_chan", "Output odometry lcm channel");
+  opt.add(app->pose_chan, "pc", "pose_chan", "Output pose lcm channel");
   opt.add(app->publish_relative, "r", "relative", "Publish relative odometry");
-  opt.add(app->publish_pose, "p", "publish_pose", "Enable publishing of POSE lcm message");
+  opt.add(app->publish_pose, "p", "publish_pose", "Enable publishing of pose lcm message");
   opt.add(app->scan_skip, "s", "scan_skip", "Skip this many scans between ones that get processed");
   opt.add(app->noDrop, "n", "no_drop", "Don't drop laser messages if we're getting behind");
   opt.add(app->do_drawing, "d", "do_drawing", "Draw the map and pose using LCMGL");
