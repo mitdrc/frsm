@@ -91,7 +91,7 @@ static void process_laser(const frsm_planar_lidar_t * msg, void * user __attribu
   ////////////////////////////////////////////////////////////////////
   frsmPoint * points = (frsmPoint *) calloc(msg->nranges, sizeof(frsmPoint));
   int numValidPoints = frsm_projectRangesAndDecimate(app->beam_skip, app->spatialDecimationThresh, msg->ranges,
-	  msg->nranges, msg->rad0, msg->radstep, points, app->maxRange, app->minRange, app->validBeamAngles[0], app->validBeamAngles[1]);
+      msg->nranges, msg->rad0, msg->radstep, points, app->minRange, app->maxRange, app->validBeamAngles[0], app->validBeamAngles[1]);
   if (numValidPoints < 30) {
     fprintf(stderr, "WARNING! NOT ENOUGH VALID POINTS! numValid=%d\n", numValidPoints);
     return;

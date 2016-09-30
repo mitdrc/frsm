@@ -327,7 +327,7 @@ inline void frsm_transformPoints(ScanTransform *T, frsmPoint * points, unsigned 
 }
 
 inline int frsm_projectRangesToPoints(float * ranges, int numPoints, double thetaStart, double thetaStep,
-	frsmPoint * points, double maxRange = 1e10, double minRange = .1, double validRangeStart = -1000, double validRangeEnd = 1000,
+    frsmPoint * points, double minRange = .1, double maxRange = 1e10, double validRangeStart = -1000, double validRangeEnd = 1000,
     double * aveValidRange = NULL, double * stddevValidRange = NULL)
 {
   int count = 0;
@@ -360,13 +360,13 @@ inline int frsm_projectRangesToPoints(float * ranges, int numPoints, double thet
 }
 
 inline int frsm_projectRangesAndDecimate(int beamskip, float spatialDecimationThresh, float * ranges, int numPoints,
-	double thetaStart, double thetaStep, frsmPoint * points, double maxRange = 1e10, double minRange = .1, double validRangeStart = -1000,
+    double thetaStart, double thetaStep, frsmPoint * points, double minRange = .1, double maxRange = 1e10, double validRangeStart = -1000,
     double validRangeEnd = 1000)
 {
   int lastAdd = -1000;
   double aveRange;
   double stdDevRange;
-  int numValidPoints = frsm_projectRangesToPoints(ranges, numPoints, thetaStart, thetaStep, points, maxRange, minRange,
+  int numValidPoints = frsm_projectRangesToPoints(ranges, numPoints, thetaStart, thetaStep, points, minRange, maxRange,
       validRangeStart, validRangeEnd, &aveRange, &stdDevRange);
 
   frsmPoint origin = { 0, 0 };
