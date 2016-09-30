@@ -327,7 +327,7 @@ inline void frsm_transformPoints(ScanTransform *T, frsmPoint * points, unsigned 
 }
 
 inline int frsm_projectRangesToPoints(float * ranges, int numPoints, double thetaStart, double thetaStep,
-    frsmPoint * points, double maxRange = 1e10, double validRangeStart = -1000, double validRangeEnd = 1000,
+    frsmPoint * points, double minRange = .1, double maxRange = 1e10, double validRangeStart = -1000, double validRangeEnd = 1000,
     double * aveValidRange = NULL, double * stddevValidRange = NULL)
 {
   int count = 0;
@@ -336,7 +336,7 @@ inline int frsm_projectRangesToPoints(float * ranges, int numPoints, double thet
 
   double theta = thetaStart;
   for (int i = 0; i < numPoints; i++) {
-    if (ranges[i] > .1 && ranges[i] < maxRange && theta > validRangeStart && theta < validRangeEnd) { //hokuyo driver seems to report maxRanges as .001 :-/
+	if (ranges[i] > minRange && ranges[i] < maxRange && theta > validRangeStart && theta < validRangeEnd) { //hokuyo driver seems to report maxRanges as .001 :-/
       //project to body centered coordinates
       points[count].x = ranges[i] * cos(theta);
       points[count].y = ranges[i] * sin(theta);
@@ -360,13 +360,13 @@ inline int frsm_projectRangesToPoints(float * ranges, int numPoints, double thet
 }
 
 inline int frsm_projectRangesAndDecimate(int beamskip, float spatialDecimationThresh, float * ranges, int numPoints,
-    double thetaStart, double thetaStep, frsmPoint * points, double maxRange = 1e10, double validRangeStart = -1000,
+    double thetaStart, double thetaStep, frsmPoint * points, double minRange = .1, double maxRange = 1e10, double validRangeStart = -1000,
     double validRangeEnd = 1000)
 {
   int lastAdd = -1000;
   double aveRange;
   double stdDevRange;
-  int numValidPoints = frsm_projectRangesToPoints(ranges, numPoints, thetaStart, thetaStep, points, maxRange,
+  int numValidPoints = frsm_projectRangesToPoints(ranges, numPoints, thetaStart, thetaStep, points, minRange, maxRange,
       validRangeStart, validRangeEnd, &aveRange, &stdDevRange);
 
   frsmPoint origin = { 0, 0 };
