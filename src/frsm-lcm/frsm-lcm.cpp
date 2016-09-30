@@ -38,6 +38,7 @@ public:
   int beam_skip; //downsample ranges by only taking 1 out of every beam_skip points
   double spatialDecimationThresh; //don't discard a point if its range is more than this many std devs from the mean range (end of hallway)
   double maxRange; //discard beams with reading further than this value
+  double minRange; //discard beams with reading closer than this value
   float validBeamAngles[2]; //valid part of the field of view of the laser in radians, 0 is the center beam
   frsm_rigid_transform_2d_t prev_odom;
   bool verbose;
@@ -90,7 +91,7 @@ static void process_laser(const frsm_planar_lidar_t * msg, void * user __attribu
   ////////////////////////////////////////////////////////////////////
   frsmPoint * points = (frsmPoint *) calloc(msg->nranges, sizeof(frsmPoint));
   int numValidPoints = frsm_projectRangesAndDecimate(app->beam_skip, app->spatialDecimationThresh, msg->ranges,
-      msg->nranges, msg->rad0, msg->radstep, points, app->maxRange, app->validBeamAngles[0], app->validBeamAngles[1]);
+	  msg->nranges, msg->rad0, msg->radstep, points, app->maxRange, app->minRange, app->validBeamAngles[0], app->validBeamAngles[1]);
   if (numValidPoints < 30) {
     fprintf(stderr, "WARNING! NOT ENOUGH VALID POINTS! numValid=%d\n", numValidPoints);
     return;
@@ -261,6 +262,7 @@ int main(int argc, char *argv[])
   app->beam_skip = 3;
   app->spatialDecimationThresh = .2;
   app->maxRange = 29.7;
+  app->minRange = 0.1;
   app->laser_queue = new deque<frsm_planar_lidar_t *>();
 
   bool isUtm = true;
@@ -282,6 +284,7 @@ int main(int argc, char *argv[])
 
   opt.addUsageSeperator("\nLow-level options (override settings from lidar type)");
   opt.add(app->maxRange, "R", "max_range", "Max range of the lidar\n");
+  opt.add(app->minRange, "m", "min_range", "Min range of the lidar\n");
   opt.add(app->beam_skip, "B", "beam_skip", "Skipe every n beams");
   opt.add(app->spatialDecimationThresh, "D", "spatial_decimation", "Spatial decimation threshold in meters");
   opt.add(fov_string, "F", "fov", "Valid portion of the field of view <min,max> in radians");
