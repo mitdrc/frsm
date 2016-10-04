@@ -265,7 +265,7 @@ int main(int argc, char *argv[])
   app->minRange = 0.1;
   app->laser_queue = new deque<frsm_planar_lidar_t *>();
 
-  bool isUtm = true;
+  bool isUtm = false;
   bool isUrg = false, isSick = false;
 
   ConciseArgs opt(argc, argv);
@@ -291,7 +291,9 @@ int main(int argc, char *argv[])
   opt.parse();
 
   int numModes = (int) isUtm + (int) isUrg + (int) isSick;
-  if (numModes > 1) {
+  if(numModes == 0){
+	  isUtm = true;
+  } else if (numModes > 1) {
     fprintf(stderr, "Only one lidar type may be specified at once\n");
     opt.usage(true);
   }
