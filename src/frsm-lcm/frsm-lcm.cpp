@@ -13,8 +13,9 @@
 #include <bot_core/bot_core.h>
 #include <bot_lcmgl_client/lcmgl.h>
 #include <GL/gl.h>
+#include <sstream>
 
-#include "ConciseArgs.hpp"
+#include "ConciseArgs"
 
 using namespace std;
 using namespace frsm;
