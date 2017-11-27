@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>frsm_lcmtypes</name>
+  <version>1.0.0</version>
+  <description>The frsm_lcmtypes package</description>
+  <maintainer email="v.ivan@ed.ac.uk">Vladimir Ivan</maintainer>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>lcm_catkin</depend>
+</package>
